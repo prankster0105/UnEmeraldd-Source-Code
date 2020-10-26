@@ -60,7 +60,7 @@ module.exports = {
     for (const permission of permissions) {
       if (memberToMute.hasPermission(permission)) {
         return message.channel.send(permissionError);
-  /   } else {
+     } else {
         // add the role to the member
         memberToMute.roles.add(muteRole, reason)
         .then(() => {
