@@ -58,9 +58,9 @@ module.exports = {
     const permissionError = 'You do not have permission to temporarily mute that member. (or there was an error doing so)';
 
     for (const permission of permissions) {
-  //    if (memberToMute.hasPermission(permission)) {
-  //      return message.channel.send(permissionError);
-  //    } else {
+      if (memberToMute.hasPermission(permission)) {
+        return message.channel.send(permissionError);
+  /   } else {
         // add the role to the member
         memberToMute.roles.add(muteRole, reason)
         .then(() => {
@@ -104,6 +104,6 @@ module.exports = {
 
     }
 
-//  }
+  }
 
 }

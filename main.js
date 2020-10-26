@@ -60,17 +60,21 @@ client.on("message", (message) => {
                     message.channel.send(clientcommand.permissionError);
                     break;
                 }
+
             }
         } else {
             // but if permissions is null, then
             if (args.length > clientcommand.maxArgs ||
                 args.length < clientcommand.minArgs) {
-                    return message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`);
+                return message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`);
             }
+
             clientcommand.callback(message, args);
         }
     } else if (clientcommand && clientcommand.name === "help") {
+
         clientcommand.callback(message, client.commands);
+        
     } else {
         const embed = new Discord.MessageEmbed()
         .setTitle("Hello!")
