@@ -47,9 +47,9 @@ client.on("message", (message) => {
                 if (message.member.hasPermission(perm)) {
                     if (args.length > clientcommand.maxArgs ||
                         args.length < clientcommand.minArgs) {
-                        
-                        message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`); 
-                        break; 
+
+                        message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`);
+                        break;
                     }
                     // but if syntax is correct:
 
@@ -58,7 +58,7 @@ client.on("message", (message) => {
 
                 } else {
                     message.channel.send(clientcommand.permissionError);
-                    break; 
+                    break;
                 }
             }
         } else {
@@ -79,8 +79,9 @@ If you don't know how to use me, my prefix is \`${config.prefix}\`. You can say 
         .setAuthor(message.author.username);
 
         message.channel.send(embed);
+        console.log("Embed sent.");
     }
-    
+
 })
 
 client.login(config.token);
