@@ -20,7 +20,7 @@ module.exports = {
 
         const permissions =  ['BAN_MEMBERS', 'MANAGE_MEMBERS', 'ADMINISTRATOR']
 
-        for (permission of  permissions) {
+        for (const permission of  permissions) {
             if (wMember.hasPermission(permission)) {
                 message.channel.send("I cannot ban a moderator/administrator.");
                 break;
@@ -34,7 +34,7 @@ module.exports = {
                     return console.log(err);
                 })
 
-                wMember.ban()
+                wMember.ban(reason)
                 .then(() => {
                     message.channel.send(`${wUser.username} was banned because of: ${reason}`);
                 })
@@ -45,7 +45,7 @@ module.exports = {
                 break;
             }
         }
-        
+
     }
-    
+
 }

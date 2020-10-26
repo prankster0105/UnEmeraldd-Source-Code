@@ -37,50 +37,42 @@ client.on("message", (message) => {
     if (clientcommand && clientcommand.name != "help")
     {
         clientcommand.maxArgs = clientcommand.maxArgs || 100;
-        clientcommand.permissions = clientcommand.permissions || null;
+        clientcommand.permissions = clientcommand.permissions || ['READ_MESSAGES', 'SEND_MESSAGES'];
         clientcommand.permissionError = clientcommand.permissionError || "You do not have permission to use that.";
 
-        if (clientcommand.minArgs === null) return console.error("You did not provide a minArg for " + clientcommand.name);
+          for (const perm of clientcommand.permissions) {
+              if (message.member.hasPermission(perm)) {
+                    // if the given arguments are over the maximum arguments of the command or below the minimum arguments...
+                  if (args.length > clientcommand.maxArgs ||
+                      args.length < clientcommand.minArgs) {
 
-        if (clientcommand.permissions != null) {
-            for (const perm of clientcommand.permissions) {
-                if (message.member.hasPermission(perm)) {
-                    if (args.length > clientcommand.maxArgs ||
-                        args.length < clientcommand.minArgs) {
-
-                        message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`);
-                        break;
-                    }
+                      message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`);
+                      break;
+                  }
                     // but if syntax is correct:
+                  clientcommand.callback(message, args);
+                  break;
 
-                    clientcommand.callback(message, args);
-                    break;
+              } else {
+                  message.channel.send(clientcommand.permissionError);
+                  break;
+              }
 
-                } else {
-                    message.channel.send(clientcommand.permissionError);
-                    break;
-                }
-            }
-        } else {
-            // but if permissions is null, then
-            if (args.length > clientcommand.maxArgs ||
-                args.length < clientcommand.minArgs) {
-                    return message.channel.send(`Invalid syntax! Use ${clientcommand.expectedArgs}`);
-            }
-            clientcommand.callback(message, args);
-        }
-    } else if (clientcommand && clientcommand.name === "help") {
+          }
+
+      } else if (clientcommand && clientcommand.name === "help") {
         clientcommand.callback(message, client.commands);
-    } else {
+        
+      } else {
         const embed = new Discord.MessageEmbed()
         .setTitle("Hello!")
-        .setDescription(`	I'm ${client.user.username}, the unofficial bot for this server!
-If you don't know how to use me, my prefix is \`${config.prefix}\`. You can say \`${config.prefix}help\` for more information on other commands.`)
+        .setDescription(`\t\tI'm ${client.user.username}, the unofficial bot for this server!
+      If you don't know how to use me, my prefix is \`${config.prefix}\`. You can say \`${config.prefix}help\` for more information on other commands.`)
         .setAuthor(message.author.username);
 
         message.channel.send(embed);
         console.log("Embed sent.");
-    }
+      }
 
 })
 
